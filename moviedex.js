@@ -21,11 +21,11 @@ app.use(function validateBearerToken(req, res, next){
 });
 
 const handleCountrySearch = (country, movies) => {
-    return movies.filter(movie => movie.country.toLowerCase() === country.toLowerCase())
+    return movies.filter(movie => movie.country.toLowerCase().includes(country.toLowerCase()))
 }
 
 const handleGenreSearch = (genre, movies) => {
-    return movies.filter(movie => movie.genre.toLowerCase() === genre.toLowerCase())
+    return movies.filter(movie => movie.genre.toLowerCase().includes(genre.toLowerCase()))
 }
 
 const handleAvgVoteSearch = (avg_vote, movies) => {
@@ -36,10 +36,10 @@ const handleGetMovies = (req, res) => {
     const genre = req.query.genre;
     const avg_vote = req.query.avg_vote;
     const country = req.query.country;
-    const validQuery = !genre && !country && !avg_vote;
+    const invalidQuery = !genre && !country && !avg_vote;
     let movies = moviedex.slice(0);
     
-    if(!genre && !country && !avg_vote){
+    if(invalidQuery){
      	res.status(400).send('Please query by genre, country, avg_vote, or any combination of these things.  You can get a list of genres at /movie/genres. You can get a list of countries at /movie/countries')
      }
 
@@ -55,7 +55,7 @@ const handleGetMovies = (req, res) => {
         movies = handleCountrySearch(country, movies)
     }
 
-    res.send(movies)
+    res.json(movies)
 }
 
 const handleGetGenres = (req, res) => {
@@ -63,7 +63,7 @@ const handleGetGenres = (req, res) => {
     moviedex.map(movie => {
         genres.add(movie.genre)
     })
-    res.send(Array.from(genres))
+    res.json(Array.from(genres))
 }
 
 const handleGetCountries = (req, res) => {
@@ -75,7 +75,7 @@ const handleGetCountries = (req, res) => {
         })
     })
 
-    res.send(Array.from(countries))
+    res.json(Array.from(countries))
 }
 
 
