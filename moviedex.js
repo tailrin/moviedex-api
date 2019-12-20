@@ -24,13 +24,13 @@ const handleAvgVoteSearch = (avg_vote, movies) => {
     
 }
 
-const handleGet = (req, res) => {
+const handleGetMovies = (req, res) => {
     res.send('this is a test')
 }
 
 
 
-app.get('/movie', handleGet)
+app.get('/movie', handleGetMovies)
 
 module.exports = app;
 
