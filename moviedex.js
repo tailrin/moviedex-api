@@ -36,12 +36,12 @@ const handleGetMovies = (req, res) => {
     const genre = req.query.genre;
     const avg_vote = req.query.avg_vote;
     const country = req.query.country;
-    const validQuery = !!genre && !!country && !!avg_vote;
+    const validQuery = !genre && !country && !avg_vote;
     let movies = moviedex.slice(0);
     
-    if(!validQuery){
-    	res.status(400).send('Please query by genre, country, avg_vote, or any combination of these things.  You can get a list of genres at /movie/genres. You can get a list of countries at /movie/countries')
-    }
+    if(!genre && !country && !avg_vote){
+     	res.status(400).send('Please query by genre, country, avg_vote, or any combination of these things.  You can get a list of genres at /movie/genres. You can get a list of countries at /movie/countries')
+     }
 
     if(!!genre){
         movies = handleGenreSearch(genre, movies);
@@ -66,11 +66,22 @@ const handleGetGenres = (req, res) => {
     res.send(Array.from(genres))
 }
 
+const handleGetCountries = (req, res) => {
+    const countries = new Set()
 
+    moviedex.map(movie => {
+        movie.country.split(', ').map(country => {
+            countries.add(country)
+        })
+    })
+
+    res.send(Array.from(countries))
+}
 
 
 app.get('/movie', handleGetMovies)
 app.get('/movie/genres', handleGetGenres)
+app.get('/movie/country', handleGetCountries)
 module.exports = app;
 
 
