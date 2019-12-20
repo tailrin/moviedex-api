@@ -1,16 +1,6 @@
 const moviedex = require('./movies-data.json');
 const {genres, countries} = require('./prepFunctions');
 
-const validateBearerToken = (req, res, next) => {
-    const authToken = req.get('Authorization')
-    const apiToken = process.env.API_TOKEN
-    console.log(apiToken)
-    if (!authToken || authToken.split(' ')[1] !== apiToken) {
-        return res.status(401).json({ error: 'Unauthorized request' })
-    }
-    next()
-}
-
 const handleCountrySearch = (country, movies) => {
     return movies.filter(movie => movie.country.toLowerCase().includes(country.toLowerCase()))
 }
@@ -57,4 +47,4 @@ const handleGetCountries = (req, res) => {
     res.json(countries)
 }
 
-module.exports = {validateBearerToken, handleGetCountries, handleGetGenres, handleGetMovies}
+module.exports = {handleGetCountries, handleGetGenres, handleGetMovies}

@@ -3,7 +3,8 @@ const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
-const {validateBearerToken, handleGetCountries, handleGetGenres, handleGetMovies} = require('./callbackFunctions')
+const {handleGetCountries, handleGetGenres, handleGetMovies} = require('./callbackFunctions')
+const {validateBearerToken } = require('./prepFunctions');
 
 const app = express();
 app.use(morgan('dev'));
@@ -13,6 +14,7 @@ app.use(validateBearerToken);
 app.get('/movie', handleGetMovies)
 app.get('/movie/genres', handleGetGenres)
 app.get('/movie/countries', handleGetCountries)
+
 module.exports = app;
 
 
