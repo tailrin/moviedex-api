@@ -2,11 +2,13 @@ require('dotenv').config()
 const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
+const cors = require('cors');
 const moviedex = require('./movies-data.json')
 
 
 const app = express();
 app.use(morgan('dev'));
+app.use(cors());
 app.use(helmet());
 app.use(function validateBearerToken(req, res, next){
     const authToken = req.get('Authorization')
