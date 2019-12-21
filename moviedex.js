@@ -7,7 +7,7 @@ const {handleGetCountries, handleGetGenres, handleGetMovies} = require('./callba
 const {validateBearerToken } = require('./prepFunctions');
 
 const app = express();
-app.use(morgan('dev'));
+app.use(morgan('tiny'));
 app.use(cors());
 app.use(helmet());
 app.use(validateBearerToken);
